@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SoccerCoaching
+Bundle-SymbolicName: SoccerCoaching;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: 
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: SoccerCoaching
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.junit,
+ junit-jupiter-api
+Export-Package: SoccerCoaching.impl,
+ SoccerCoaching,
+ SoccerCoaching.util

@@ -1,0 +1,45 @@
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "platform:/plugin/SoccerCoaching/model/SoccerCoaching.ecore"
+
+using "SoccerCoaching.gt"
+
+class Coach {
+	operation assignTeam(teamName: Team): void {
+		this: Coach
+		addTeam(coach=this, teamName=teamName)
+	}
+	
+	operation conductTrainingSession(trainingSession: TrainingSession): void {
+		this: Coach
+		calculateSkillImprovement(coach=this, trainingSession=trainingSession)
+	}
+}
+
+class Player {
+	operation joinTeam(teamName: Team): void {
+		this: Player
+		joinTeam(player=this, teamName=teamName)
+		if(coachExists(teamName=teamName)) {
+			setCoach(player=this)
+		} else {
+			return
+		}
+	}
+	
+	operation participateInTraining(trainingSession: TrainingSession): void {
+		this: Player
+		addImprovement(player=this, trainingSession=trainingSession)
+		
+	}
+	
+	operation skipTrainingSession(trainingSession: TrainingSession): void {
+		this: Player
+		removeSkill(player=this, trainingSession=trainingSession)
+	}
+	
+	operation calculateSkillLevel(): void {
+		this: Player
+		
+	}
+}

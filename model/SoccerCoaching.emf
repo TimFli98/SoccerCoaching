@@ -1,0 +1,51 @@
+@GenModel(documentation="TODO: Add documentation for Blup")
+@namespace(uri="platform:/plugin/SoccerCoaching/model/SoccerCoaching.ecore", prefix="SoccerCoaching")
+package SoccerCoaching;
+
+abstract class People {
+	attr String name;
+	attr Integer age;
+}
+
+class Coach extends People {
+	op void assignTeam(Team teamName);
+	op void conductTrainingSession(TrainingSession trainingSession);
+	attr String specialization;
+	attr double trainingLevel;
+	ref Player[*]#coach players;
+	ref Team[1]#coaches team;
+	ref TrainingSession[*]#coaches trainingsession;
+}
+
+class Player extends People {
+	op void joinTeam(Team teamName);
+	op void calculateSkillLevel();
+	op void participateInTraining(TrainingSession trainingSession);
+	op void skipTrainingSession(TrainingSession trainingSession);
+	attr String position;
+	attr double skillLevel;
+	ref Coach[1]#players coach;
+	ref Team[1]#players team;
+	ref TrainingSession[*]#players trainingsession;
+}
+
+class Team {
+	attr String teamName;
+	val Coach[*]#team coaches;
+	val Player[*]#team players;
+	ref Club[1]#team club;
+}
+
+class Club {
+	attr String clubName;
+	val Team[*]#club team;
+}
+
+class TrainingSession {
+	attr String title;
+	attr double length;
+	attr double intensity;
+	ref Player[*]#trainingsession players;
+	ref Coach[*]#trainingsession coaches;
+}
+

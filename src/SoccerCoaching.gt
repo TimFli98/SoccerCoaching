@@ -1,0 +1,89 @@
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "platform:/resource/SoccerCoaching/model/SoccerCoaching.ecore"
+
+rule addTeam {
+	
+	coach: Coach {
+		++ -team-> teamName
+	}
+	teamName: Team {
+		++ -coaches->coach
+	}
+}
+
+rule joinTeam {
+	
+	player: Player {
+		++ -team-> teamName
+	}
+	teamName: Team {
+		++ -players-> player
+	}
+}
+
+pattern coachExists {
+	coach: Coach
+	teamName: Team {
+		-coaches-> coach
+	}
+}
+
+rule setCoach {
+	coach: Coach {
+		++ -players-> player
+	}
+	player: Player {
+		++ -coach-> coach
+	}
+}
+
+rule calculateSkillImprovement {
+	trainingSession: TrainingSession 
+	coach: Coach {
+		++ -trainingsession->trainingSession
+	}
+	attributeCondition {
+		multiplyDouble(coach.trainingLevel*, trainingSession.intensity, trainingSession.length)
+	} 
+	
+}
+
+rule addImprovement {
+	trainingSession: TrainingSession
+	player: Player {
+		++ -trainingsession->trainingSession
+	}
+	attributeCondition {
+		addSkill(player.skillLevel*, player.skillLevel, trainingSession.intensity, trainingSession.length)
+	}
+}
+
+rule removeSkill {
+	trainingSession: TrainingSession
+	player: Player {
+		++ -trainingsession->trainingSession
+	}
+	attributeCondition {
+		loseSkill(player.skillLevel*, player.skillLevel, trainingSession.intensity, trainingSession.length)
+	}
+}
+
+attributeConditionLibrary {
+	multiplyDouble(result: EDouble, x:EDouble, y:EDouble) {
+		extend [F B B] {
+			Java : '$result$ = $x$ * $y$'
+		}
+	}
+	
+	addSkill(result: EDouble, x:EDouble, y:EDouble, z:EDouble) {
+		extend [F B B B] {
+			Java : '$result$ = $x$ + ($y$ * $z$)'
+		}
+	}
+	
+	loseSkill(result: EDouble, x: EDouble, y:EDouble, z: EDouble) {
+		extend [F B B B] {
+			Java : '$result$ = $x$ - ($y$ * $z$)'
+		}
+	}
+}

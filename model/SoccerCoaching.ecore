@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="SoccerCoaching" nsURI="platform:/plugin/SoccerCoaching/model/SoccerCoaching.ecore"
+    nsPrefix="SoccerCoaching">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="TODO: Add documentation for Blup"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="People" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="age" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coach" eSuperTypes="#//People">
+    <eOperations name="assignTeam">
+      <eParameters name="teamName" eType="#//Team"/>
+    </eOperations>
+    <eOperations name="conductTrainingSession">
+      <eParameters name="trainingSession" eType="#//TrainingSession"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="specialization" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trainingLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="players" upperBound="-1"
+        eType="#//Player" eOpposite="#//Player/coach"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="team" lowerBound="1" eType="#//Team"
+        eOpposite="#//Team/coaches"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainingsession" upperBound="-1"
+        eType="#//TrainingSession" eOpposite="#//TrainingSession/coaches"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Player" eSuperTypes="#//People">
+    <eOperations name="joinTeam">
+      <eParameters name="teamName" eType="#//Team"/>
+    </eOperations>
+    <eOperations name="calculateSkillLevel"/>
+    <eOperations name="participateInTraining">
+      <eParameters name="trainingSession" eType="#//TrainingSession"/>
+    </eOperations>
+    <eOperations name="skipTrainingSession">
+      <eParameters name="trainingSession" eType="#//TrainingSession"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="skillLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coach" lowerBound="1" eType="#//Coach"
+        eOpposite="#//Coach/players"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="team" lowerBound="1" eType="#//Team"
+        eOpposite="#//Team/players"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trainingsession" upperBound="-1"
+        eType="#//TrainingSession" eOpposite="#//TrainingSession/players"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Team">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="teamName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coaches" upperBound="-1"
+        eType="#//Coach" containment="true" eOpposite="#//Coach/team"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="players" upperBound="-1"
+        eType="#//Player" containment="true" eOpposite="#//Player/team"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="club" lowerBound="1" eType="#//Club"
+        eOpposite="#//Club/team"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Club">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clubName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="team" upperBound="-1" eType="#//Team"
+        containment="true" eOpposite="#//Team/club"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrainingSession">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="title" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intensity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="players" upperBound="-1"
+        eType="#//Player" eOpposite="#//Player/trainingsession"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coaches" upperBound="-1"
+        eType="#//Coach" eOpposite="#//Coach/trainingsession"/>
+  </eClassifiers>
+</ecore:EPackage>
